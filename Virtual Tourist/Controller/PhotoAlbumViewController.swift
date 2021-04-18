@@ -42,9 +42,14 @@ class PhotoAlbumViewController: UIViewController {
         FlickrClient().searchPhotos(latitude: coordinate!.latitude, longitude: coordinate!.longitude, completion: handleGetLocationPhotos(result:error:))
     }
     
-    func handleGetLocationPhotos(result: [Photo], error: Error?) {
+    func handleGetLocationPhotos(result: [LocationPhoto], error: Error?) {
         if error == nil {
-            self.photos = result
+            var photos = [Photo]()
+            for photo in result {
+                let locationPhoto = Photo(path: photo.imagePath)
+                photos.append(locationPhoto)
+            }
+            self.photos = photos
             self.photoCollectionView.reloadData()
         } else {
             showAlert(message: error!.localizedDescription)
