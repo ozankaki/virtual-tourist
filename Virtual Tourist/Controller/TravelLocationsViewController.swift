@@ -28,11 +28,13 @@ extension TravelLocationsViewController: MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        prepareMapView()
+    }
+    
+    fileprivate func prepareMapView() {
         travelLocationsMapView.delegate = self
-        
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
         gestureRecognizer.minimumPressDuration = 1.5
-        
         travelLocationsMapView.addGestureRecognizer(gestureRecognizer)
     }
     
