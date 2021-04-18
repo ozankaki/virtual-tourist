@@ -31,13 +31,23 @@ class FlickrClient: BaseClient {
     
     func searchPhotos(latitude: Double, longitude: Double, completion: @escaping ([LocationPhoto], Error?) -> Void) {
         super.taskForGETRequest(url: Endpoints.searchPhotos(latitude, longitude).url, responseType: SearchResponse.self) { response, error in
-            var photos = [LocationPhoto]()
-            for photo in response!.photos.photo {
-                let locationPhoto = LocationPhoto(path: photo.imagePath)
-                photos.append(locationPhoto)
+            if response?.stat == "ok" {
+                guard let photos = response?.photos else {
+                    completion([], error)
+                    return
+                }
+                
+                var locationPhotos = [LocationPhoto]()
+                for photo in photos.photo {
+                    let locationPhoto = LocationPhoto(path: photo.imagePath)
+                    locationPhotos.append(locationPhoto)
+                }
+                
+                completion(locationPhotos, nil)
+            } else {
+                let errorResponse = response! as Error
+                completion([], errorResponse)
             }
-            
-            completion(photos, nil)
         }
     }
 }

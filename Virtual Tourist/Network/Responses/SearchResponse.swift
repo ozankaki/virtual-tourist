@@ -9,8 +9,10 @@ import Foundation
 
 // MARK: - SearchResponse
 struct SearchResponse: Codable {
-    let photos: Photos
+    let photos: Photos?
     let stat: String
+    let code: Int?
+    let message: String?
 }
 
 // MARK: - Photos
@@ -33,5 +35,11 @@ extension Photo {
         get {
             return "https://live.staticflickr.com/\(server)/\(id)_\(secret)_q.jpg"
         }
+    }
+}
+
+extension SearchResponse: LocalizedError {
+    var errorDescription: String? {
+        return message
     }
 }

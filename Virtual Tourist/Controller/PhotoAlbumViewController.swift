@@ -43,8 +43,12 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     func handleGetLocationPhotos(result: [LocationPhoto], error: Error?) {
-        self.photos = result
-        self.photoCollectionView.reloadData()
+        if error == nil {
+            self.photos = result
+            self.photoCollectionView.reloadData()
+        } else {
+            showAlert(message: error!.localizedDescription)
+        }
     }
 }
 
