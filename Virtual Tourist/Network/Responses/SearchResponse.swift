@@ -19,18 +19,18 @@ struct SearchResponse: Codable {
 struct Photos: Codable {
     let page, pages, perpage: Int
     let total: String
-    let photo: [Photo]
+    let photo: [LocationPhoto]
 }
 
 // MARK: - Photo
-struct Photo: Codable {
+struct LocationPhoto: Codable {
     let id, owner, secret, server: String
     let farm: Int
     let title: String
     let ispublic, isfriend, isfamily: Int
 }
 
-extension Photo {
+extension LocationPhoto {
     var imagePath: String {
         get {
             return "https://live.staticflickr.com/\(server)/\(id)_\(secret)_q.jpg"

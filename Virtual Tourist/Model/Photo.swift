@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct LocationPhoto {
+struct Photo {
     var path: String
 }

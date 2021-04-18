@@ -14,7 +14,7 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var photoCollectionView: UICollectionView!
     
     var coordinate: CLLocationCoordinate2D!
-    var photos: [LocationPhoto]?
+    var photos: [Photo]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +42,7 @@ class PhotoAlbumViewController: UIViewController {
         FlickrClient().searchPhotos(latitude: coordinate!.latitude, longitude: coordinate!.longitude, completion: handleGetLocationPhotos(result:error:))
     }
     
-    func handleGetLocationPhotos(result: [LocationPhoto], error: Error?) {
+    func handleGetLocationPhotos(result: [Photo], error: Error?) {
         if error == nil {
             self.photos = result
             self.photoCollectionView.reloadData()
