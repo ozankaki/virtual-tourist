@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		6F36F532262CEB2500BEAA1F /* VirtualTourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6F36F530262CEB2500BEAA1F /* VirtualTourist.xcdatamodeld */; };
+		6F36F5442630A6BE00BEAA1F /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F36F5432630A6BE00BEAA1F /* DataController.swift */; };
+		6F36F5472630A98600BEAA1F /* ListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F36F5462630A98600BEAA1F /* ListDataSource.swift */; };
+		6F36F54A2630B29200BEAA1F /* MKMapView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F36F5492630B29200BEAA1F /* MKMapView+Extension.swift */; };
 		6FB4D037262A34BD005EE1A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB4D036262A34BD005EE1A4 /* AppDelegate.swift */; };
 		6FB4D039262A34BD005EE1A4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB4D038262A34BD005EE1A4 /* SceneDelegate.swift */; };
 		6FB4D03B262A34BD005EE1A4 /* TravelLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB4D03A262A34BD005EE1A4 /* TravelLocationsViewController.swift */; };
@@ -28,6 +31,9 @@
 
 /* Begin PBXFileReference section */
 		6F36F531262CEB2500BEAA1F /* VirtualTourist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VirtualTourist.xcdatamodel; sourceTree = "<group>"; };
+		6F36F5432630A6BE00BEAA1F /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		6F36F5462630A98600BEAA1F /* ListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDataSource.swift; sourceTree = "<group>"; };
+		6F36F5492630B29200BEAA1F /* MKMapView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Extension.swift"; sourceTree = "<group>"; };
 		6FB4D033262A34BD005EE1A4 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FB4D036262A34BD005EE1A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6FB4D038262A34BD005EE1A4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +112,8 @@
 				6FBA60F0262C50A500301112 /* Loadable.swift */,
 				6FBA60FD262C6C1F00301112 /* Photo.swift */,
 				6F36F530262CEB2500BEAA1F /* VirtualTourist.xcdatamodeld */,
+				6F36F5432630A6BE00BEAA1F /* DataController.swift */,
+				6F36F5462630A98600BEAA1F /* ListDataSource.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -116,6 +124,7 @@
 				6FBA60F4262C50CE00301112 /* LoadingView.swift */,
 				6FBA6101262C6EAE00301112 /* PhotoCollectionViewCell.swift */,
 				6FBA6105262C7D2500301112 /* UIImageView+Extension.swift */,
+				6F36F5492630B29200BEAA1F /* MKMapView+Extension.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -253,10 +262,13 @@
 				6FB4D037262A34BD005EE1A4 /* AppDelegate.swift in Sources */,
 				6FB4D039262A34BD005EE1A4 /* SceneDelegate.swift in Sources */,
 				6FBA60FE262C6C1F00301112 /* Photo.swift in Sources */,
+				6F36F5472630A98600BEAA1F /* ListDataSource.swift in Sources */,
+				6F36F54A2630B29200BEAA1F /* MKMapView+Extension.swift in Sources */,
 				6FBAD4EE262B9A5900690804 /* PhotoAlbumViewController.swift in Sources */,
 				6FBA6106262C7D2500301112 /* UIImageView+Extension.swift in Sources */,
 				6FBA6109262CDCE000301112 /* UIViewController+Extension.swift in Sources */,
 				6FBA60F5262C50CE00301112 /* LoadingView.swift in Sources */,
+				6F36F5442630A6BE00BEAA1F /* DataController.swift in Sources */,
 				6FBA60F1262C50A500301112 /* Loadable.swift in Sources */,
 				6FBA60F8262C544900301112 /* FlickrClient.swift in Sources */,
 				6FBA6102262C6EAE00301112 /* PhotoCollectionViewCell.swift in Sources */,

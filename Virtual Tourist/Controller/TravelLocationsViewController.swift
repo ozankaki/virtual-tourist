@@ -7,11 +7,14 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class TravelLocationsViewController: UIViewController {
 
     @IBOutlet weak var travelLocationsMapView: MKMapView!
     var selectedCoordinate: CLLocationCoordinate2D?
+    var dataController: DataController!
+    var listDataSource: ListDataSource<Pin>!
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showPhotoAlbumSegue" {
@@ -22,12 +25,30 @@ class TravelLocationsViewController: UIViewController {
             photoAlbumVC.coordinate = selectedCoordinate
         }
     }
+    
+    fileprivate func setupFetchedResultsController() {
+        let fetchRequest:NSFetchRequest<Pin> = Pin.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "latitude", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        listDataSource = ListDataSource(managedObjectContext: dataController.viewContext, fetchRequest: fetchRequest, cacheName: "pins")
+    }
+    
+    func handleDataSourceLoad() {
+        guard let pins = listDataSource.objects() else {
+            return
+        }
+        
+        travelLocationsMapView.addAnnotations(pins)
+    }
+    
 }
 
 extension TravelLocationsViewController: MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupFetchedResultsController()
+        handleDataSourceLoad()
         prepareMapView()
     }
     
@@ -51,9 +72,22 @@ extension TravelLocationsViewController: MKMapViewDelegate {
         
         let location = gestureRecognizer.location(in: travelLocationsMapView)
         let myCoordinate: CLLocationCoordinate2D = travelLocationsMapView.convert(location, toCoordinateFrom: travelLocationsMapView)
-        let myPin: MKPointAnnotation = MKPointAnnotation()
-        myPin.coordinate = myCoordinate
         
+        savePin(myCoordinate.latitude, myCoordinate.longitude)
+        addPinToMap(myCoordinate)
+    }
+    
+    fileprivate func addPinToMap(_ coordinate: CLLocationCoordinate2D) {
+        let myPin: MKPointAnnotation = MKPointAnnotation()
+        myPin.coordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         travelLocationsMapView.addAnnotation(myPin)
+    }
+    
+    fileprivate func savePin(_ latitude: Double, _ longitude: Double) {
+        let pin = Pin(context: dataController.viewContext)
+        pin.latitude = latitude
+        pin.longitude = longitude
+        pin.id = UUID()
+        try? dataController.viewContext.save()
     }
 }
