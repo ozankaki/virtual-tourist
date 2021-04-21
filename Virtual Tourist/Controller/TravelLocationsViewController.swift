@@ -15,6 +15,7 @@ class TravelLocationsViewController: UIViewController {
     var selectedCoordinate: CLLocationCoordinate2D?
     var dataController: DataController!
     var listDataSource: ListDataSource<Pin>!
+    private let regionKey = "regionKey"
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showPhotoAlbumSegue" {
@@ -50,6 +51,18 @@ extension TravelLocationsViewController: MKMapViewDelegate {
         setupFetchedResultsController()
         handleDataSourceLoad()
         prepareMapView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let region = MKCoordinateRegion.load(fromDefaults: UserDefaults.standard, withKey: regionKey) {
+            travelLocationsMapView.region = region
+        }
+    }
+    
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        travelLocationsMapView.region.write(toDefaults: UserDefaults.standard, withKey: regionKey)
     }
     
     fileprivate func prepareMapView() {
