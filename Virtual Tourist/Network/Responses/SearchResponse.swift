@@ -32,9 +32,7 @@ struct LocationPhoto: Codable {
 
 extension LocationPhoto {
     var imagePath: String {
-        get {
-            return "https://live.staticflickr.com/\(server)/\(id)_\(secret)_q.jpg"
-        }
+        return "https://live.staticflickr.com/\(server)/\(id)_\(secret)_q.jpg"
     }
 }
 

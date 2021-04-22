@@ -12,7 +12,7 @@ import CoreData
 class TravelLocationsViewController: UIViewController {
 
     @IBOutlet weak var travelLocationsMapView: MKMapView!
-    var selectedCoordinate: CLLocationCoordinate2D?
+    var selectedPin: PinnedAnnotation?
     var dataController: DataController!
     var listDataSource: ListDataSource<Pin>!
     private let regionKey = "regionKey"
@@ -23,23 +23,30 @@ class TravelLocationsViewController: UIViewController {
                 return
             }
             
-            photoAlbumVC.coordinate = selectedCoordinate
+            photoAlbumVC.dataController = dataController
+            photoAlbumVC.pinnedAnnotation = selectedPin
         }
     }
     
     fileprivate func setupFetchedResultsController() {
-        let fetchRequest:NSFetchRequest<Pin> = Pin.fetchRequest()
+        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "latitude", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        listDataSource = ListDataSource(managedObjectContext: dataController.viewContext, fetchRequest: fetchRequest, cacheName: "pins")
+        listDataSource = ListDataSource(managedObjectContext: dataController.viewContext, fetchRequest: fetchRequest, cacheName: "pins",
+                                        configure: handleDataSourceLoad(pins:), handleAfterInsert: handleInsertData(indexPath:),
+                                        handleAfterDelete: handleDeleteData(indexPath:))
     }
     
-    func handleDataSourceLoad() {
-        guard let pins = listDataSource.objects() else {
-            return
-        }
-        
+    func handleDataSourceLoad(pins: [Pin]) {
         travelLocationsMapView.addAnnotations(pins)
+    }
+    
+    func handleInsertData(indexPath: IndexPath) {
+        // TODO: fill that
+    }
+    
+    func handleDeleteData(indexPath: IndexPath) {
+        
     }
     
 }
@@ -49,7 +56,6 @@ extension TravelLocationsViewController: MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupFetchedResultsController()
-        handleDataSourceLoad()
         prepareMapView()
     }
     
@@ -73,9 +79,9 @@ extension TravelLocationsViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        view.setSelected(false, animated: true)
-        selectedCoordinate = view.annotation?.coordinate
+        selectedPin = mapView.selectedAnnotations.first as? PinnedAnnotation
         performSegue(withIdentifier: "showPhotoAlbumSegue", sender: nil)
+        mapView.deselectAnnotation(view.annotation, animated: false)
     }
     
     @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
@@ -86,21 +92,21 @@ extension TravelLocationsViewController: MKMapViewDelegate {
         let location = gestureRecognizer.location(in: travelLocationsMapView)
         let myCoordinate: CLLocationCoordinate2D = travelLocationsMapView.convert(location, toCoordinateFrom: travelLocationsMapView)
         
-        savePin(myCoordinate.latitude, myCoordinate.longitude)
-        addPinToMap(myCoordinate)
+        let newPin = savePin(myCoordinate.latitude, myCoordinate.longitude)
+        addPinToMap(newPin)
     }
     
-    fileprivate func addPinToMap(_ coordinate: CLLocationCoordinate2D) {
-        let myPin: MKPointAnnotation = MKPointAnnotation()
-        myPin.coordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+    fileprivate func addPinToMap(_ pin: Pin) {
+        let myPin = PinnedAnnotation(pin: pin)
         travelLocationsMapView.addAnnotation(myPin)
     }
     
-    fileprivate func savePin(_ latitude: Double, _ longitude: Double) {
+    fileprivate func savePin(_ latitude: Double, _ longitude: Double) -> Pin {
         let pin = Pin(context: dataController.viewContext)
         pin.latitude = latitude
         pin.longitude = longitude
         pin.id = UUID()
         try? dataController.viewContext.save()
+        return pin
     }
 }

@@ -9,13 +9,13 @@ import Foundation
 import CoreData
 
 class DataController {
-    let persistentContainer:NSPersistentContainer
+    let persistentContainer: NSPersistentContainer
     
-    var viewContext:NSManagedObjectContext {
+    var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
-    init(modelName:String) {
+    init(modelName: String) {
         persistentContainer = NSPersistentContainer(name: modelName)
     }
     
@@ -25,7 +25,7 @@ class DataController {
     }
     
     func load(completion: (() -> Void)? = nil) {
-        persistentContainer.loadPersistentStores { storeDescription, error in
+        persistentContainer.loadPersistentStores {_, error in
             guard error == nil else {
                 fatalError(error!.localizedDescription)
             }
@@ -39,7 +39,7 @@ class DataController {
 // MARK: - Autosaving
 
 extension DataController {
-    func autoSaveViewContext(interval:TimeInterval = 30) {
+    func autoSaveViewContext(interval: TimeInterval = 30) {
         print("autosaving")
         
         guard interval > 0 else {

@@ -9,6 +9,7 @@ import UIKit
 
 extension UIImageView {
 
+    // TODO: Get image from persistent photo data
     func setImage(urlPath: String) {
         self.image = UIImage(named: "Placeholder")
         let url = URL(string: urlPath)!

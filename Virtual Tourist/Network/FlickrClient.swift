@@ -20,7 +20,10 @@ class FlickrClient: BaseClient {
 
         var path: String {
             switch self {
-            case .searchPhotos(let latitude, let longitude): return "\(Endpoints.base)\(Endpoints.apiKeyParam)&method=flickr.photos.search&format=json&nojsoncallback=?&per_page=20&lat=\(latitude)&lon=\(longitude)"
+            case .searchPhotos(let latitude, let longitude): return """
+                \(Endpoints.base)\(Endpoints.apiKeyParam)&method=flickr.photos.search&format=json\
+                &nojsoncallback=?&per_page=20&lat=\(latitude)&lon=\(longitude)
+                """
             }
         }
 
@@ -30,7 +33,8 @@ class FlickrClient: BaseClient {
     }
     
     func searchPhotos(latitude: Double, longitude: Double, completion: @escaping ([LocationPhoto], Error?) -> Void) {
-        super.taskForGETRequest(url: Endpoints.searchPhotos(latitude, longitude).url, responseType: SearchResponse.self) { response, error in
+        super.taskForGETRequest(url: Endpoints.searchPhotos(latitude, longitude).url,
+                                responseType: SearchResponse.self) { response, error in
             if response?.stat == "ok" {
                 guard let photos = response?.photos else {
                     completion([], error)

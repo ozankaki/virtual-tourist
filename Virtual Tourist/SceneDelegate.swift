@@ -18,9 +18,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         dataController.load()
-        let navController = UIApplication.shared.windows.first!.rootViewController as! UINavigationController
+        guard let navController = UIApplication.shared.windows.first!.rootViewController
+                as? UINavigationController else {
+            return
+        }
 
-        let viewController = navController.viewControllers.first as! TravelLocationsViewController
+        guard let viewController = navController.viewControllers.first as? TravelLocationsViewController else {
+            return
+        }
         viewController.dataController = dataController
     }
 
@@ -59,4 +64,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 }
-
