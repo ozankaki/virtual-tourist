@@ -104,11 +104,9 @@ extension PhotoAlbumViewController: UICollectionViewDataSource, UICollectionView
             return UICollectionViewCell()
         }
         
-        guard let path = listDataSource.object(at: indexPath).path else {
-            return cell
-        }
+        let photo = listDataSource.object(at: indexPath)
         
-        cell.photoImageView.setImage(urlPath: path)
+        photo.setToImage(cell.photoImageView)
 
         return cell
     }
