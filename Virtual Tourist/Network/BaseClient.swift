@@ -38,4 +38,20 @@ class BaseClient: Loadable {
         }
         task.resume()
     }
+    
+    func taskForDownloadData(url: URL, completion: @escaping (Data?, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(data, nil)
+            }
+        }
+        task.resume()
+    }
 }

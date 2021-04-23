@@ -14,8 +14,8 @@ extension Photo {
         
         if self.data == nil {
             if UIApplication.shared.canOpenURL(url) {
-                DispatchQueue.global().async {
-                    if let data = try? Data(contentsOf: url) {
+                FlickrClient().downloadPhoto(url) { data, _ in
+                    if data != nil {
                         self.data = data
                         try? self.managedObjectContext?.save()
                         

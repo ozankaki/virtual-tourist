@@ -55,4 +55,10 @@ class FlickrClient: BaseClient {
             }
         }
     }
+    
+    func downloadPhoto(_ url: URL, completion: @escaping (Data?, Error?) -> Void) {
+        super.taskForDownloadData(url: url) { data, error in
+            completion(data, error)
+        }
+    }
 }
