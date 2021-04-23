@@ -16,13 +16,13 @@ class FlickrClient: BaseClient {
         static let base = "https://api.flickr.com/services/rest"
         static let apiKeyParam = "?api_key=\(FlickrClient.apiKey)"
 
-        case searchPhotos(Double, Double)
+        case searchPhotos(Double, Double, Int32)
 
         var path: String {
             switch self {
-            case .searchPhotos(let latitude, let longitude): return """
+            case .searchPhotos(let latitude, let longitude, let pageCount): return """
                 \(Endpoints.base)\(Endpoints.apiKeyParam)&method=flickr.photos.search&format=json\
-                &nojsoncallback=?&per_page=20&lat=\(latitude)&lon=\(longitude)&page=\(String(describing: ((1...10).randomElement())!))
+                &nojsoncallback=?&per_page=20&lat=\(latitude)&lon=\(longitude)&page=\(getPageNumber(pageCount))
                 """
             }
         }
@@ -32,19 +32,26 @@ class FlickrClient: BaseClient {
         }
     }
     
-    func searchPhotos(latitude: Double, longitude: Double, completion: @escaping ([LocationPhoto], Error?) -> Void) {
-        super.taskForGETRequest(url: Endpoints.searchPhotos(latitude, longitude).url,
+    fileprivate class func getPageNumber(_ pageCount: Int32) -> Int32 {
+        if pageCount <= 1 {
+            return 1
+        }
+        return (1...pageCount).randomElement()!
+    }
+    
+    func searchPhotos(latitude: Double, longitude: Double, pageCount: Int32, completion: @escaping ([LocationPhoto], Int32, Error?) -> Void) {
+        super.taskForGETRequest(url: Endpoints.searchPhotos(latitude, longitude, pageCount).url,
                                 responseType: SearchResponse.self) { response, error in
             if response?.stat == "ok" {
                 guard let photos = response?.photos else {
-                    completion([], error)
+                    completion([], Int32.min, error)
                     return
                 }
                 
-                completion(photos.photo, nil)
+                completion(photos.photo, photos.pages, nil)
             } else {
                 let errorResponse = response! as Error
-                completion([], errorResponse)
+                completion([], Int32.min, errorResponse)
             }
         }
     }

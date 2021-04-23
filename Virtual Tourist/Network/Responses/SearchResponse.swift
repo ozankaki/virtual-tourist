@@ -17,7 +17,7 @@ struct SearchResponse: Codable {
 
 // MARK: - Photos
 struct Photos: Codable {
-    let page, pages, perpage: Int
+    let page, pages, perpage: Int32
     let total: String
     let photo: [LocationPhoto]
 }

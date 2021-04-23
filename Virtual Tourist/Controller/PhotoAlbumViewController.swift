@@ -65,14 +65,20 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     func getLocationPhotos() {
-        FlickrClient().searchPhotos(latitude: pinnedAnnotation!.pin.latitude, longitude: pinnedAnnotation!.pin.longitude, completion: handleGetLocationPhotos(result:error:))
+        guard let pin = pinnedAnnotation.pin else {
+            return
+        }
+        FlickrClient().searchPhotos(latitude: pin.latitude, longitude: pin.longitude, pageCount: pin.pageCount,
+                                    completion: handleGetLocationPhotos(result:pageCount:error:))
     }
     
-    func handleGetLocationPhotos(result: [LocationPhoto], error: Error?) {
+    func handleGetLocationPhotos(result: [LocationPhoto], pageCount: Int32, error: Error?) {
         if error == nil {
             if result.isEmpty {
                 showAlert(message: Constants.Messages.noPhoto)
             }
+            pinnedAnnotation.pin.pageCount = pageCount
+            
             for photo in result {
                 savePhoto(photo.imagePath)
             }
