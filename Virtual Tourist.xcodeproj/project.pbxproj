@@ -28,6 +28,7 @@
 		6FBA6109262CDCE000301112 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBA6108262CDCE000301112 /* UIViewController+Extension.swift */; };
 		6FBAD4EE262B9A5900690804 /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBAD4ED262B9A5900690804 /* PhotoAlbumViewController.swift */; };
 		6FF7B9C12632FE2A009DA6B3 /* Photo+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7B9C02632FE2A009DA6B3 /* Photo+Extension.swift */; };
+		6FF7B9C5263348BC009DA6B3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7B9C4263348BC009DA6B3 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		6FBA6108262CDCE000301112 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		6FBAD4ED262B9A5900690804 /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 		6FF7B9C02632FE2A009DA6B3 /* Photo+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+Extension.swift"; sourceTree = "<group>"; };
+		6FF7B9C4263348BC009DA6B3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				6F36F54F2630DA9700BEAA1F /* MKCoordinateRegion+Extension.swift */,
 				6F2281C1263202DB00279C8D /* PinnedAnnotation.swift */,
 				6FF7B9C02632FE2A009DA6B3 /* Photo+Extension.swift */,
+				6FF7B9C4263348BC009DA6B3 /* Constants.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F36F532262CEB2500BEAA1F /* VirtualTourist.xcdatamodeld in Sources */,
+				6FF7B9C5263348BC009DA6B3 /* Constants.swift in Sources */,
 				6FB4D03B262A34BD005EE1A4 /* TravelLocationsViewController.swift in Sources */,
 				6FBA60EE262C506600301112 /* BaseClient.swift in Sources */,
 				6FB4D037262A34BD005EE1A4 /* AppDelegate.swift in Sources */,

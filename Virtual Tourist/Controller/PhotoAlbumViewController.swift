@@ -33,7 +33,8 @@ class PhotoAlbumViewController: UIViewController {
     }
 
     @IBAction func newCollectionTapped(_ sender: Any) {
-        // TODO:
+        listDataSource.deleteAll()
+        getLocationPhotos()
     }
     
     fileprivate func setupFetchedResultsController() {
@@ -69,6 +70,9 @@ class PhotoAlbumViewController: UIViewController {
     
     func handleGetLocationPhotos(result: [LocationPhoto], error: Error?) {
         if error == nil {
+            if result.isEmpty {
+                showAlert(message: Constants.Messages.noPhoto)
+            }
             for photo in result {
                 savePhoto(photo.imagePath)
             }

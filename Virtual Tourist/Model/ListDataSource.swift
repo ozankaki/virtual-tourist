@@ -56,6 +56,27 @@ class ListDataSource<EntityType: NSManagedObject>: NSObject, NSFetchedResultsCon
         try? fetchedResultsController.managedObjectContext.save()
     }
     
+    func deleteAll() {
+        if let entitiesToDelete = fetchedResultsController.fetchedObjects {
+            if entitiesToDelete.isEmpty {
+                return
+            }
+            var objectIDs = [NSManagedObjectID]()
+            for entityToDelete in entitiesToDelete {
+                objectIDs.append(entityToDelete.objectID)
+            }
+            
+            let deleteRequest = NSBatchDeleteRequest(objectIDs: objectIDs)
+            do {
+                try fetchedResultsController.managedObjectContext.execute(deleteRequest)
+                try fetchedResultsController.performFetch()
+            } catch {
+                print(error)
+            }
+            
+        }
+    }
+    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?,
                     for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
