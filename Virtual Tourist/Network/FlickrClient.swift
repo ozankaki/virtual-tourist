@@ -22,7 +22,7 @@ class FlickrClient: BaseClient {
             switch self {
             case .searchPhotos(let latitude, let longitude): return """
                 \(Endpoints.base)\(Endpoints.apiKeyParam)&method=flickr.photos.search&format=json\
-                &nojsoncallback=?&per_page=20&lat=\(latitude)&lon=\(longitude)
+                &nojsoncallback=?&per_page=20&lat=\(latitude)&lon=\(longitude)&page=\(String(describing: ((1...10).randomElement())!))
                 """
             }
         }
