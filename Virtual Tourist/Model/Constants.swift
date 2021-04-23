@@ -15,4 +15,9 @@ struct Constants {
         static let alertTitle = "Opps.."
         static let noPhoto = "Sorry, no photos found in this location."
     }
+    
+    struct Error {
+        static let notImplementedTitle = "Not Implemented"
+        static let notImpleementedMessage = "Function not Implemented"
+    }
 }

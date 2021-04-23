@@ -33,7 +33,7 @@ class TravelLocationsViewController: UIViewController {
         let sortDescriptor = NSSortDescriptor(key: "latitude", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         listDataSource = ListDataSource(managedObjectContext: dataController.viewContext, fetchRequest: fetchRequest, cacheName: "pins",
-                                        configure: handleDataSourceLoad(pins:), handleAfterInsert: handleInsertData(indexPath:),
+                                        configure: handleDataSourceLoad(pins:), handleAfterInsert: handleInsertData(pin:indexPath:),
                                         handleAfterDelete: handleDeleteData(indexPath:))
     }
     
@@ -41,12 +41,15 @@ class TravelLocationsViewController: UIViewController {
         travelLocationsMapView.addAnnotations(pins)
     }
     
-    func handleInsertData(indexPath: IndexPath) {
-        // TODO: fill that
+    func handleInsertData(pin: Pin, indexPath: IndexPath) {
+        let myPin = PinnedAnnotation(pin: pin)
+        travelLocationsMapView.addAnnotation(myPin)
     }
     
     func handleDeleteData(indexPath: IndexPath) {
-        
+        let exception = NSException(name: NSExceptionName(Constants.Error.notImplementedTitle), reason: Constants.Error.notImpleementedMessage, userInfo: nil)
+        exception.raise()
+        abort()
     }
     
 }
@@ -92,21 +95,14 @@ extension TravelLocationsViewController: MKMapViewDelegate {
         let location = gestureRecognizer.location(in: travelLocationsMapView)
         let myCoordinate: CLLocationCoordinate2D = travelLocationsMapView.convert(location, toCoordinateFrom: travelLocationsMapView)
         
-        let newPin = savePin(myCoordinate.latitude, myCoordinate.longitude)
-        addPinToMap(newPin)
+        savePin(myCoordinate.latitude, myCoordinate.longitude)
     }
     
-    fileprivate func addPinToMap(_ pin: Pin) {
-        let myPin = PinnedAnnotation(pin: pin)
-        travelLocationsMapView.addAnnotation(myPin)
-    }
-    
-    fileprivate func savePin(_ latitude: Double, _ longitude: Double) -> Pin {
+    fileprivate func savePin(_ latitude: Double, _ longitude: Double) {
         let pin = Pin(context: dataController.viewContext)
         pin.latitude = latitude
         pin.longitude = longitude
         pin.id = UUID()
         try? dataController.viewContext.save()
-        return pin
     }
 }

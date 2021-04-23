@@ -46,7 +46,7 @@ class PhotoAlbumViewController: UIViewController {
         fetchRequest.predicate = predicate
         listDataSource = ListDataSource(managedObjectContext: dataController.viewContext,
                                         fetchRequest: fetchRequest, cacheName: "\(pinnedAnnotation.pin.id!)-photos",
-                                        configure: handleDataSourceLoad(photos:), handleAfterInsert: handleInsertData(indexPath:),
+                                        configure: handleDataSourceLoad(photos:), handleAfterInsert: handleInsertData(photo:indexPath:),
                                         handleAfterDelete: handleDeleteData(indexPath:))
     }
     
@@ -56,7 +56,7 @@ class PhotoAlbumViewController: UIViewController {
         }
     }
     
-    func handleInsertData(indexPath: IndexPath) {
+    func handleInsertData(photo: Photo, indexPath: IndexPath) {
         self.photoCollectionView.insertItems(at: [indexPath])
     }
     

@@ -10,11 +10,11 @@ import CoreData
 
 class ListDataSource<EntityType: NSManagedObject>: NSObject, NSFetchedResultsControllerDelegate {
     var fetchedResultsController: NSFetchedResultsController<EntityType>
-    var handleAfterInsert: (IndexPath) -> Void
+    var handleAfterInsert: (EntityType, IndexPath) -> Void
     var handleAfterDelete: (IndexPath) -> Void
     
     init(managedObjectContext: NSManagedObjectContext, fetchRequest: NSFetchRequest<EntityType>, cacheName: String,
-         configure: @escaping ([EntityType]) -> Void, handleAfterInsert: @escaping (IndexPath) -> Void,
+         configure: @escaping ([EntityType]) -> Void, handleAfterInsert: @escaping (EntityType, IndexPath) -> Void,
          handleAfterDelete: @escaping (IndexPath) -> Void) {
         
         self.handleAfterInsert = handleAfterInsert
@@ -84,7 +84,7 @@ class ListDataSource<EntityType: NSManagedObject>: NSObject, NSFetchedResultsCon
         case .delete:
             handleAfterDelete(indexPath!)
         case .insert:
-            handleAfterInsert(newIndexPath!)
+            handleAfterInsert((anObject as? EntityType)!, newIndexPath!)
         default:
             break
         }
