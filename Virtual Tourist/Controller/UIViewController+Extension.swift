@@ -12,7 +12,9 @@ extension UIViewController {
     func showAlert(title: String = Constants.Messages.alertTitle, message: String = "") {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Constants.cancel, style: .cancel, handler: nil ))
-        present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 
 }

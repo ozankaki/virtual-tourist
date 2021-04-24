@@ -57,11 +57,11 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     func handleInsertData(photo: Photo, indexPath: IndexPath) {
-        self.photoCollectionView.insertItems(at: [indexPath])
+        photoCollectionView.insertItems(at: [indexPath])
     }
     
     func handleDeleteData(indexPath: IndexPath) {
-        self.photoCollectionView.deleteItems(at: [indexPath])
+        photoCollectionView.deleteItems(at: [indexPath])
     }
     
     func getLocationPhotos() {

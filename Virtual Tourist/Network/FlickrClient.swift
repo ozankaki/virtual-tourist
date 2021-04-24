@@ -9,12 +9,9 @@ import Foundation
 
 class FlickrClient: BaseClient {
     
-    static let apiKey = "a40fe040c503a13e36e2ab89e4b6447f"
-    static let secretKey = "66e03ecb5df71247"
-    
     enum Endpoints {
         static let base = "https://api.flickr.com/services/rest"
-        static let apiKeyParam = "?api_key=\(FlickrClient.apiKey)"
+        static let apiKeyParam = "?api_key=\(Constants.Flickr.apiKey)"
 
         case searchPhotos(Double, Double, Int32)
 
@@ -22,7 +19,7 @@ class FlickrClient: BaseClient {
             switch self {
             case .searchPhotos(let latitude, let longitude, let pageCount): return """
                 \(Endpoints.base)\(Endpoints.apiKeyParam)&method=flickr.photos.search&format=json\
-                &nojsoncallback=?&per_page=20&lat=\(latitude)&lon=\(longitude)&page=\(getPageNumber(pageCount))
+                &nojsoncallback=?&per_page=\(Constants.Flickr.pagePhotoLimit)&lat=\(latitude)&lon=\(longitude)&page=\(getPageNumber(pageCount))
                 """
             }
         }
@@ -36,7 +33,9 @@ class FlickrClient: BaseClient {
         if pageCount <= 1 {
             return 1
         }
-        return (1...pageCount).randomElement()!
+        
+        let pageLimit = min(pageCount, Int32(Constants.Flickr.totalPhotoLimit/Constants.Flickr.pagePhotoLimit))
+        return (1...pageLimit).randomElement()!
     }
     
     func searchPhotos(latitude: Double, longitude: Double, pageCount: Int32, completion: @escaping ([LocationPhoto], Int32, Error?) -> Void) {
